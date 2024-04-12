@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fastkml_poc"
+version = "0.0.1"
+authors = [
+  { name="Ben Sembira", email="classified@classified.classified" },
+]
+description = "A poc for using polygons to assert if a point is in a certain area"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+  "fastkml",
+  "lxml",
+  "shapely",
+  "pyproj",
+  "pytest",
+]
+
+[project.urls]
+Homepage = "https://github.com/ben-sembira-1/geometry_poc"
+Issues = "https://github.com/ben-sembira-1/geometry_poc/issues"

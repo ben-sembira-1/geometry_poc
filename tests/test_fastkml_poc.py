@@ -1,14 +1,16 @@
 import pytest
 from pathlib import Path
 from fastkml import kml  # type: ignore
-from fastkml_poc import gcs_polygon_from_kml, gcs_polygon_to_utm_polygon
 import shapely  # type: ignore
+
+from fastkml_poc import gcs_polygon_from_kml, gcs_polygon_to_utm_polygon
 
 
 @pytest.fixture
 def haifa_kml() -> kml.KML:
+    kml_file_path = Path(__file__).parent / "HaifaSea.kml"
     haifa_kml = kml.KML()
-    haifa_kml.from_string(Path("./HaifaSea.kml").read_bytes())
+    haifa_kml.from_string(kml_file_path.read_bytes())
     return haifa_kml
 
 
