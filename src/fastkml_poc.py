@@ -28,19 +28,12 @@ def get_polygon_from_kml_document(document: kml.Document) -> geometry.Polygon:
     return polygon
 
 
-class LonLatAlt:
-    __slots__ = ("longitude", "latitude", "altitude")
-
-    def __init__(self, lon_lat_alt: Tuple[float, float, float]):
-        self.longitude = lon_lat_alt[0]
-        self.latitude = lon_lat_alt[1]
-        self.altitude = lon_lat_alt[2]
-
-    def to_utm_tuple(self) -> Tuple[float, float, float]:
-        ISRAEL_ZONE = 36
-        _proj = Proj(proj='utm', zone=ISRAEL_ZONE, ellps='WGS84')
-        x, y = _proj(self.longitude, self.latitude)
-        return x, y, self.altitude
+def gcs_to_utm(lon_lat_alt: Tuple[float, float, float]) -> Tuple[float, float, float]:
+    ISRAEL_ZONE = 36
+    longitude, latitude, altitude = lon_lat_alt
+    _proj = Proj(proj='utm', zone=ISRAEL_ZONE, ellps='WGS84')
+    x, y = _proj(longitude, latitude)
+    return x, y, altitude
 
 
 def gcs_polygon_from_kml(kml_obj: kml.KML) -> shapely.Polygon:
@@ -50,8 +43,7 @@ def gcs_polygon_from_kml(kml_obj: kml.KML) -> shapely.Polygon:
 
 
 def gcs_polygon_to_utm_polygon(gcs_polygon: shapely.Polygon) -> shapely.Polygon:
-    utm_coordinates = tuple(LonLatAlt(c).to_utm_tuple()
-                            for c in gcs_polygon.exterior.coords)
+    utm_coordinates = tuple(gcs_to_utm(c) for c in gcs_polygon.exterior.coords)
     utm_polygon = shapely.Polygon(utm_coordinates)
     return utm_polygon
 
