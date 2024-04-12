@@ -1,6 +1,8 @@
+from typing import Tuple
 from fastkml import kml, geometry  # type: ignore
 from pathlib import Path
 from pyproj import Proj  # type: ignore
+import shapely  # type: ignore
 
 
 def get_document_from_kml(kml_obj: kml.KML) -> kml.Document:
@@ -26,21 +28,40 @@ def get_polygon_from_kml_document(document: kml.Document) -> geometry.Polygon:
     return polygon
 
 
+class LonLatAlt:
+    __slots__ = ("longitude", "latitude", "altitude")
+
+    def __init__(self, lon_lat_alt: Tuple[float, float, float]):
+        self.longitude = lon_lat_alt[0]
+        self.latitude = lon_lat_alt[1]
+        self.altitude = lon_lat_alt[2]
+
+    def to_utm_tuple(self) -> Tuple[float, float, float]:
+        ISRAEL_ZONE = 36
+        _proj = Proj(proj='utm', zone=ISRAEL_ZONE, ellps='WGS84')
+        x, y = _proj(self.longitude, self.latitude)
+        return x, y, self.altitude
+
+
+def gcs_polygon_from_kml(kml_obj: kml.KML) -> shapely.Polygon:
+    document = get_document_from_kml(kml_obj)
+    gcs_polygon = get_polygon_from_kml_document(document)
+    return shapely.Polygon(shell=gcs_polygon.exterior.coords)
+
+
+def gcs_polygon_to_utm_polygon(gcs_polygon: shapely.Polygon) -> shapely.Polygon:
+    utm_coordinates = tuple(LonLatAlt(c).to_utm_tuple()
+                            for c in gcs_polygon.exterior.coords)
+    utm_polygon = shapely.Polygon(utm_coordinates)
+    return utm_polygon
+
+
 def main():
     haifa_kml = kml.KML()
     haifa_kml.from_string(Path("./HaifaSea.kml").read_bytes())
-
-    haifa_document = get_document_from_kml(haifa_kml)
-    polygon = get_polygon_from_kml_document(haifa_document)
-
-    print(polygon.coords)
-
-    # for feature1 in all_haifa_placemarks:
-    #     if isinstance(feature1.geometry, geometry.Polygon):
-    #         polygon = feature1.geometry
-    #         for coord in polygon.exterior.coords:
-    #             # these are long, lat tuples
-    #             print(coord)
+    gcs_polygon = gcs_polygon_from_kml(haifa_kml)
+    utm_polygon = gcs_polygon_to_utm_polygon(gcs_polygon)
+    gcs_polygon.contains(shapely.Point(34.5144, 32.5430))
 
 
 if __name__ == "__main__":

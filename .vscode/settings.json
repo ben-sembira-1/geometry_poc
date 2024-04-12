@@ -1,6 +1,8 @@
 {
     "cSpell.words": [
+        "ellps",
         "fastkml",
+        "latlon",
         "placemark",
         "pyproj"
     ]
