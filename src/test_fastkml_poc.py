@@ -46,6 +46,7 @@ def test_haifa_utm_coordinates_in_polygon(utm_haifa_polygon: shapely.Polygon, xy
     (shapely.Point(34.991702, 32.828799),),
     (shapely.Point(34.655685, 32.899678),),
     (shapely.Point(34.946519, 32.747045),),
+    (shapely.Point(34.998646, 32.826047),),
 ])
 def test_haifa_gcs_coordinates_out_of_polygon(gcs_haifa_polygon: shapely.Polygon, lon_lat: shapely.Point):
     assert not gcs_haifa_polygon.contains(lon_lat)
@@ -55,6 +56,7 @@ def test_haifa_gcs_coordinates_out_of_polygon(gcs_haifa_polygon: shapely.Polygon
     (shapely.Point(686430.60, 3634064.96),),
     (shapely.Point(654850.90, 3641380.81),),
     (shapely.Point(682367.46, 3624920.99),),
+    (shapely.Point(687086.46, 3633772.08),),
 ])
 def test_haifa_utm_coordinates_out_of_polygon(utm_haifa_polygon: shapely.Polygon, xy: shapely.Point):
     assert not utm_haifa_polygon.contains(xy)
