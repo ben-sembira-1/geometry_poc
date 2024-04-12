@@ -24,7 +24,7 @@ def utm_haifa_polygon(gcs_haifa_polygon: shapely.Polygon) -> shapely.Polygon:
 
 @pytest.mark.parametrize("lon_lat", [
     (shapely.Point(34.962316, 32.835565),),
-    (shapely.Point(35.000328, 32.825192),),
+    (shapely.Point(34.996019, 32.826362),),
     (shapely.Point(34.910345, 32.842013),),
     (shapely.Point(34.9465170, 32.7470367),),
 ])
@@ -34,7 +34,7 @@ def test_haifa_gcs_coordinates_in_polygon(gcs_haifa_polygon: shapely.Polygon, lo
 
 @pytest.mark.parametrize("xy", [
     (shapely.Point(683665.57, 3634763.72),),
-    (shapely.Point(687245.73, 3633680.25),),
+    (shapely.Point(686839.86, 3633802.36),),
     (shapely.Point(678787.59, 3635389.50),),
     (shapely.Point(682367.29, 3624920.10),),
 ])
