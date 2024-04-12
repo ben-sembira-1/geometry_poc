@@ -61,7 +61,8 @@ def main():
     haifa_kml.from_string(Path("./HaifaSea.kml").read_bytes())
     gcs_polygon = gcs_polygon_from_kml(haifa_kml)
     utm_polygon = gcs_polygon_to_utm_polygon(gcs_polygon)
-    gcs_polygon.contains(shapely.Point(34.5144, 32.5430))
+    print(gcs_polygon.contains(shapely.Point(34.962316, 32.835565)))
+    print(utm_polygon.contains(shapely.Point(683665.57, 3634763.72)))
 
 
 if __name__ == "__main__":
