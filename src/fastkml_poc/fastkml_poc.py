@@ -36,7 +36,7 @@ def gcs_to_utm(lon_lat_alt: Tuple[float, float, float]) -> Tuple[float, float, f
     return x, y, altitude
 
 
-def gcs_polygon_from_kml(kml_obj: kml.KML) -> shapely.Polygon:
+def polygon_from_kml(kml_obj: kml.KML) -> shapely.Polygon:
     document = get_document_from_kml(kml_obj)
     gcs_polygon = get_polygon_from_kml_document(document)
     return shapely.Polygon(shell=gcs_polygon.exterior.coords)
@@ -51,7 +51,7 @@ def gcs_polygon_to_utm_polygon(gcs_polygon: shapely.Polygon) -> shapely.Polygon:
 def main():
     haifa_kml = kml.KML()
     haifa_kml.from_string(Path("./HaifaSea.kml").read_bytes())
-    gcs_polygon = gcs_polygon_from_kml(haifa_kml)
+    gcs_polygon = polygon_from_kml(haifa_kml)
     utm_polygon = gcs_polygon_to_utm_polygon(gcs_polygon)
     print(gcs_polygon.contains(shapely.Point(34.962316, 32.835565)))
     print(utm_polygon.contains(shapely.Point(683665.57, 3634763.72)))

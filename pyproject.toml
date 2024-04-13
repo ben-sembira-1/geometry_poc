@@ -27,3 +27,8 @@ dependencies = [
 [project.urls]
 Homepage = "https://github.com/ben-sembira-1/geometry_poc"
 Issues = "https://github.com/ben-sembira-1/geometry_poc/issues"
+
+[tool.pytest.ini_options]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+]
