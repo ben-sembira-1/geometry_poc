@@ -36,3 +36,5 @@ Issues = "https://github.com/ben-sembira-1/py-static-dtm/issues"
 markers = [
     "slow: marks tests as slow (deselect with '-m \"not slow\"')",
 ]
+
+[tool.setuptools_scm]
