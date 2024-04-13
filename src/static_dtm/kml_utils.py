@@ -1,7 +1,4 @@
-from typing import Tuple
 from fastkml import kml, geometry  # type: ignore
-from pathlib import Path
-from pyproj import Proj  # type: ignore
 import shapely  # type: ignore
 
 
@@ -28,34 +25,7 @@ def get_polygon_from_kml_document(document: kml.Document) -> geometry.Polygon:
     return polygon
 
 
-def gcs_to_utm(lon_lat_alt: Tuple[float, float, float]) -> Tuple[float, float, float]:
-    ISRAEL_ZONE = 36
-    longitude, latitude, altitude = lon_lat_alt
-    _proj = Proj(proj='utm', zone=ISRAEL_ZONE, ellps='WGS84')
-    x, y = _proj(longitude, latitude)
-    return x, y, altitude
-
-
 def polygon_from_kml(kml_obj: kml.KML) -> shapely.Polygon:
     document = get_document_from_kml(kml_obj)
     gcs_polygon = get_polygon_from_kml_document(document)
     return shapely.Polygon(shell=gcs_polygon.exterior.coords)
-
-
-def gcs_polygon_to_utm_polygon(gcs_polygon: shapely.Polygon) -> shapely.Polygon:
-    utm_coordinates = tuple(gcs_to_utm(c) for c in gcs_polygon.exterior.coords)
-    utm_polygon = shapely.Polygon(utm_coordinates)
-    return utm_polygon
-
-
-def main():
-    haifa_kml = kml.KML()
-    haifa_kml.from_string(Path("./HaifaSea.kml").read_bytes())
-    gcs_polygon = polygon_from_kml(haifa_kml)
-    utm_polygon = gcs_polygon_to_utm_polygon(gcs_polygon)
-    print(gcs_polygon.contains(shapely.Point(34.962316, 32.835565)))
-    print(utm_polygon.contains(shapely.Point(683665.57, 3634763.72)))
-
-
-if __name__ == "__main__":
-    main()

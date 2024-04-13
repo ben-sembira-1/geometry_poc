@@ -1,26 +1,11 @@
 from dataclasses import dataclass
-import enum
 from pathlib import Path
 from fastkml import kml  # type: ignore
 import numpy as np
 import shapely  # type: ignore
 
-from fastkml_poc import gcs_polygon_to_utm_polygon, polygon_from_kml
-
-
-class CoordinateSystem(enum.Enum):
-    GCS = enum.auto
-    UTM = enum.auto
-
-
-def convert_polygon_to_utm(polygon: shapely.Polygon, coordinate_system: CoordinateSystem) -> shapely.Polygon:
-    if coordinate_system == CoordinateSystem.GCS:
-        return gcs_polygon_to_utm_polygon(polygon)
-    elif coordinate_system == CoordinateSystem.UTM:
-        return polygon
-    else:
-        raise NotImplementedError(
-            f"Polygons using {coordinate_system} coordinate system is not supported yet.")
+from static_dtm.kml_utils import polygon_from_kml
+from static_dtm.polygon_utils import CoordinateSystem, convert_polygon_to_utm
 
 
 @dataclass

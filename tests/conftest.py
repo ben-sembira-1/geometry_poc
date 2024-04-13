@@ -3,7 +3,8 @@ from pathlib import Path
 from fastkml import kml  # type: ignore
 import shapely  # type: ignore
 
-from fastkml_poc import polygon_from_kml, gcs_polygon_to_utm_polygon
+from static_dtm.kml_utils import polygon_from_kml
+from static_dtm.polygon_utils import gcs_polygon_to_utm_polygon
 
 
 @pytest.fixture

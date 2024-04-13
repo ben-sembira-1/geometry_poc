@@ -4,7 +4,7 @@ import pytest
 from pathlib import Path
 
 import numpy as np
-from fastkml_poc.static_dtm import StaticDTM, CoordinateSystem
+from static_dtm.static_dtm import StaticDTM, CoordinateSystem
 
 
 STATIC_Z = 1
