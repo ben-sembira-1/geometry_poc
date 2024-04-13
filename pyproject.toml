@@ -1,16 +1,16 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=61.0", "setuptools-scm>=8.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.package-data]
-"py-static-dtm" = ["py.typed"]
+"*" = ["*"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [project]
 name = "py-static-dtm"
-version = "0.0.1"
+dynamic = ["version"]
 authors = [
   { name="Ben Sembira", email="classified@classified.classified" },
 ]
@@ -39,3 +39,5 @@ Issues = "https://github.com/ben-sembira-1/py-static-dtm/issues"
 markers = [
     "slow: marks tests as slow (deselect with '-m \"not slow\"')",
 ]
+
+[tool.setuptools_scm]

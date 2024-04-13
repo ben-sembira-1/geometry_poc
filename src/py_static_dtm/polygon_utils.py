@@ -10,7 +10,8 @@ class CoordinateSystem(enum.Enum):
     UTM = enum.auto
 
 
-def gcs_to_utm(lon_lat_alt: Tuple[float, float, float]) -> Tuple[float, float, float]:
+def gcs_to_utm(
+        lon_lat_alt: Tuple[float, float, float]) -> Tuple[float, float, float]:
     ISRAEL_ZONE = 36
     longitude, latitude, altitude = lon_lat_alt
     _proj = Proj(proj="utm", zone=ISRAEL_ZONE, ellps="WGS84")
@@ -18,15 +19,16 @@ def gcs_to_utm(lon_lat_alt: Tuple[float, float, float]) -> Tuple[float, float, f
     return x, y, altitude
 
 
-def gcs_polygon_to_utm_polygon(gcs_polygon: shapely.Polygon) -> shapely.Polygon:
+def gcs_polygon_to_utm_polygon(
+        gcs_polygon: shapely.Polygon) -> shapely.Polygon:
     utm_coordinates = tuple(gcs_to_utm(c) for c in gcs_polygon.exterior.coords)
     utm_polygon = shapely.Polygon(utm_coordinates)
     return utm_polygon
 
 
 def convert_polygon_to_utm(
-    polygon: shapely.Polygon, coordinate_system: CoordinateSystem
-) -> shapely.Polygon:
+        polygon: shapely.Polygon,
+        coordinate_system: CoordinateSystem) -> shapely.Polygon:
     if coordinate_system == CoordinateSystem.GCS:
         return gcs_polygon_to_utm_polygon(polygon)
     elif coordinate_system == CoordinateSystem.UTM:
@@ -34,5 +36,4 @@ def convert_polygon_to_utm(
     else:
         raise NotImplementedError(
             f"Polygons using {coordinate_system} coordinate system "
-            "is not supported yet."
-        )
+            "is not supported yet.")
