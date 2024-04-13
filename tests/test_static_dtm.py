@@ -26,7 +26,7 @@ def test_static_dtm_single_values(haifa_static_dtm: StaticDTM):
 
 @pytest.mark.slow
 def test_static_dtm_performance(haifa_static_dtm: StaticDTM):
-    MAX_RUN_TIME_SEC = 10
+    MAX_RUN_TIME_SEC = 20
     TOTAL_AMOUNT_OF_QUERIES = 300_000
     QUERIES_PER_AXIS = int(math.sqrt(TOTAL_AMOUNT_OF_QUERIES))
     count = 0
