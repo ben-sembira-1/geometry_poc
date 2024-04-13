@@ -4,6 +4,9 @@ from pathlib import Path
 
 import numpy as np
 import pytest
+import shapely  # type: ignore
+from haifa_points import (INSIDE_POLYGON_UTM, OUTSIDE_POLYGON_UTM,
+                          SAME_ON_EDGE_OUTSIDE_POLYGON_UTM)
 
 from static_dtm.static_dtm import CoordinateSystem, StaticDTM
 
@@ -15,13 +18,6 @@ def haifa_static_dtm(haifa_kml_file_path: Path) -> StaticDTM:
     return StaticDTM.from_kml_file(haifa_kml_file_path,
                                    CoordinateSystem.GCS,
                                    static_z=STATIC_Z)
-
-
-def test_static_dtm_single_values(haifa_static_dtm: StaticDTM):
-    assert haifa_static_dtm.get_z_for_utm_coordinate(683665.57,
-                                                     3634763.72) == STATIC_Z
-    assert np.isnan(
-        haifa_static_dtm.get_z_for_utm_coordinate(686430.60, 3634064.96))
 
 
 @pytest.mark.slow
@@ -38,3 +34,22 @@ def test_static_dtm_performance(haifa_static_dtm: StaticDTM):
     end_time = time.time()
     total_time = end_time - start_time
     assert total_time < MAX_RUN_TIME_SEC
+
+
+@pytest.mark.parametrize("xy", INSIDE_POLYGON_UTM)
+def test_staticdtm_haifa_utm_coordinates_in_polygon(
+        haifa_static_dtm: StaticDTM, xy: shapely.Point):
+    assert haifa_static_dtm.get_z_for_utm_coordinate(xy.x, xy.y) == STATIC_Z
+
+
+@pytest.mark.parametrize("xy", OUTSIDE_POLYGON_UTM)
+def test_haifa_utm_coordinates_out_of_polygon(haifa_static_dtm: StaticDTM,
+                                              xy: shapely.Point):
+    assert np.isnan(haifa_static_dtm.get_z_for_utm_coordinate(xy.x, xy.y))
+
+
+def test_point_on_the_edge(haifa_static_dtm: StaticDTM):
+    utm_same_point = SAME_ON_EDGE_OUTSIDE_POLYGON_UTM
+    assert np.isnan(
+        haifa_static_dtm.get_z_for_utm_coordinate(utm_same_point.x,
+                                                  utm_same_point.y))
