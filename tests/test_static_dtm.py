@@ -1,25 +1,27 @@
 import math
 import time
-import pytest
 from pathlib import Path
 
 import numpy as np
-from static_dtm.static_dtm import StaticDTM, CoordinateSystem
+import pytest
 
+from static_dtm.static_dtm import CoordinateSystem, StaticDTM
 
 STATIC_Z = 1
 
 
 @pytest.fixture
 def haifa_static_dtm(haifa_kml_file_path: Path) -> StaticDTM:
-    return StaticDTM.from_kml_file(haifa_kml_file_path, CoordinateSystem.GCS, static_z=STATIC_Z)
+    return StaticDTM.from_kml_file(haifa_kml_file_path,
+                                   CoordinateSystem.GCS,
+                                   static_z=STATIC_Z)
 
 
 def test_static_dtm_single_values(haifa_static_dtm: StaticDTM):
-    assert haifa_static_dtm.get_z_for_utm_coordinate(
-        683665.57, 3634763.72) == STATIC_Z
-    assert np.isnan(haifa_static_dtm.get_z_for_utm_coordinate(
-        686430.60, 3634064.96))
+    assert haifa_static_dtm.get_z_for_utm_coordinate(683665.57,
+                                                     3634763.72) == STATIC_Z
+    assert np.isnan(
+        haifa_static_dtm.get_z_for_utm_coordinate(686430.60, 3634064.96))
 
 
 @pytest.mark.slow

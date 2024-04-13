@@ -1,8 +1,9 @@
 from dataclasses import dataclass
 from pathlib import Path
-from fastkml import kml  # type: ignore
+
 import numpy as np
 import shapely  # type: ignore
+from fastkml import kml  # type: ignore
 
 from static_dtm.kml_utils import polygon_from_kml
 from static_dtm.polygon_utils import CoordinateSystem, convert_polygon_to_utm
@@ -14,7 +15,8 @@ class StaticDTM:
     static_z: float
 
     @classmethod
-    def from_kml_file(cls, kml_path: Path, coordinate_system: CoordinateSystem, static_z: float):
+    def from_kml_file(cls, kml_path: Path, coordinate_system: CoordinateSystem,
+                      static_z: float):
         kml_obj = kml.KML()
         kml_obj.from_string(kml_path.read_bytes())
         polygon = polygon_from_kml(kml_obj)

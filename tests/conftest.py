@@ -1,7 +1,8 @@
-import pytest
 from pathlib import Path
-from fastkml import kml  # type: ignore
+
+import pytest
 import shapely  # type: ignore
+from fastkml import kml  # type: ignore
 
 from static_dtm.kml_utils import polygon_from_kml
 from static_dtm.polygon_utils import gcs_polygon_to_utm_polygon

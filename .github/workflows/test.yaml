@@ -1,0 +1,14 @@
+name: tests
+
+on: [pull_request, push]
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+      - name: install package
+        run: pip install . setuptools
+      - name: run pytest
+        run: pytest
