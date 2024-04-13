@@ -5,8 +5,9 @@ import numpy as np
 import shapely  # type: ignore
 from fastkml import kml  # type: ignore
 
-from static_dtm.kml_utils import polygon_from_kml
-from static_dtm.polygon_utils import CoordinateSystem, convert_polygon_to_utm
+from py_static_dtm.kml_utils import polygon_from_kml
+from py_static_dtm.polygon_utils import (CoordinateSystem,
+                                         convert_polygon_to_utm)
 
 
 @dataclass

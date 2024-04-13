@@ -8,7 +8,7 @@ import shapely  # type: ignore
 from haifa_points import (INSIDE_POLYGON_UTM, OUTSIDE_POLYGON_UTM,
                           SAME_ON_EDGE_OUTSIDE_POLYGON_UTM)
 
-from static_dtm.static_dtm import CoordinateSystem, StaticDTM
+from py_static_dtm.static_dtm import CoordinateSystem, StaticDTM
 
 STATIC_Z = 1
 

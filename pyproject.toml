@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "static_dtm"
+name = "py-static-dtm"
 version = "0.0.1"
 authors = [
   { name="Ben Sembira", email="classified@classified.classified" },
@@ -21,12 +21,13 @@ dependencies = [
   "lxml",
   "shapely",
   "pyproj",
+  "numpy",
   "pytest",
 ]
 
 [project.urls]
-Homepage = "https://github.com/ben-sembira-1/geometry_poc"
-Issues = "https://github.com/ben-sembira-1/geometry_poc/issues"
+Homepage = "https://github.com/ben-sembira-1/py-static-dtm"
+Issues = "https://github.com/ben-sembira-1/py-static-dtm/issues"
 
 [tool.pytest.ini_options]
 markers = [
